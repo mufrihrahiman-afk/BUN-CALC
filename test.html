@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bun Recipe Calculator Test Suite</title>
+</head>
+<body>
+  <h1>Test Suite Runner</h1>
+  <div id="results"></div>
+
+  <script src="app.js"></script>
+  <script>
+    const tests = [];
+    function assert(name, condition, details = '') {
+      tests.push({ name, passed: !!condition, details });
+    }
+
+    // Test 1: Base Recipe for 1 KG Maida
+    const r1 = calculateRecipe(1);
+    assert('1 KG Maida: Valid calculation', r1.isValid);
+    assert('1 KG Maida: 8 items returned', r1.items.length === 8);
+    
+    const sugar1 = r1.items.find(i => i.id === 'sugar');
+    const yeast1 = r1.items.find(i => i.id === 'yeast');
+    const vanilla1 = r1.items.find(i => i.id === 'vanilla');
+    const milk1 = r1.items.find(i => i.id === 'milk_powder');
+    const ghee1 = r1.items.find(i => i.id === 'ghee');
+    const improver1 = r1.items.find(i => i.id === 'bread_improver');
+    const calcium1 = r1.items.find(i => i.id === 'calcium');
+    const maida1 = r1.items.find(i => i.id === 'maida');
+
+    assert('1 KG Maida: Sugar = 250 g', sugar1.displayAmount === 250 && sugar1.displayUnit === 'g');
+    assert('1 KG Maida: Yeast = 18 g', yeast1.displayAmount === 18 && yeast1.displayUnit === 'g');
+    assert('1 KG Maida: Vanilla = 5 g', vanilla1.displayAmount === 5 && vanilla1.displayUnit === 'g');
+    assert('1 KG Maida: Milk Powder = 5 g', milk1.displayAmount === 5 && milk1.displayUnit === 'g');
+    assert('1 KG Maida: Ghee = 50 g', ghee1.displayAmount === 50 && ghee1.displayUnit === 'g');
+    assert('1 KG Maida: Bread Improver = 2 g', improver1.displayAmount === 2 && improver1.displayUnit === 'g');
+    assert('1 KG Maida: Calcium = 5 g', calcium1.displayAmount === 5 && calcium1.displayUnit === 'g');
+    assert('1 KG Maida: Maida = 1 kg', maida1.displayAmount === 1 && maida1.displayUnit === 'kg');
+
+    // Test 2: User Prompt Explicit Requirement: 3 KG Maida
+    // Sugar: 750 g, Yeast: 54 g, Vanilla: 15 g, Milk Powder: 15 g, Ghee: 150 g, Bread Improver: 6 g, Calcium: 15 g
+    const r3 = calculateRecipe(3);
+    assert('3 KG Maida: Valid calculation', r3.isValid);
+    const sugar3 = r3.items.find(i => i.id === 'sugar');
+    const yeast3 = r3.items.find(i => i.id === 'yeast');
+    const vanilla3 = r3.items.find(i => i.id === 'vanilla');
+    const milk3 = r3.items.find(i => i.id === 'milk_powder');
+    const ghee3 = r3.items.find(i => i.id === 'ghee');
+    const improver3 = r3.items.find(i => i.id === 'bread_improver');
+    const calcium3 = r3.items.find(i => i.id === 'calcium');
+
+    assert('3 KG Maida: Sugar = 750 g', sugar3.displayAmount === 750 && sugar3.displayUnit === 'g');
+    assert('3 KG Maida: Yeast = 54 g', yeast3.displayAmount === 54 && yeast3.displayUnit === 'g');
+    assert('3 KG Maida: Vanilla = 15 g', vanilla3.displayAmount === 15 && vanilla3.displayUnit === 'g');
+    assert('3 KG Maida: Milk Powder = 15 g', milk3.displayAmount === 15 && milk3.displayUnit === 'g');
+    assert('3 KG Maida: Ghee = 150 g', ghee3.displayAmount === 150 && ghee3.displayUnit === 'g');
+    assert('3 KG Maida: Bread Improver = 6 g', improver3.displayAmount === 6 && improver3.displayUnit === 'g');
+    assert('3 KG Maida: Calcium = 15 g', calcium3.displayAmount === 15 && calcium3.displayUnit === 'g');
+
+    // Test 3: Auto conversion from grams to kilograms at 1000g+
+    // 5 KG Maida: Sugar is 5 * 250 = 1250 g -> 1.25 kg
+    const r5 = calculateRecipe(5);
+    const sugar5 = r5.items.find(i => i.id === 'sugar');
+    assert('5 KG Maida: Sugar converts to 1.25 kg', sugar5.displayAmount === 1.25 && sugar5.displayUnit === 'kg' && sugar5.isConvertedToKg);
+    assert('5 KG Maida: Sugar secondary note preserves (1,250 g)', sugar5.secondaryNote.includes('1,250 g'));
+
+    // Test 4: Large commercial 25 KG bag
+    // Sugar = 25 * 250 = 6250 g -> 6.25 kg
+    // Ghee = 25 * 50 = 1250 g -> 1.25 kg
+    // Yeast = 25 * 18 = 450 g
+    const r25 = calculateRecipe(25);
+    const sugar25 = r25.items.find(i => i.id === 'sugar');
+    const ghee25 = r25.items.find(i => i.id === 'ghee');
+    const yeast25 = r25.items.find(i => i.id === 'yeast');
+    assert('25 KG Maida: Sugar = 6.25 kg', sugar25.displayAmount === 6.25 && sugar25.displayUnit === 'kg');
+    assert('25 KG Maida: Ghee = 1.25 kg', ghee25.displayAmount === 1.25 && ghee25.displayUnit === 'kg');
+    assert('25 KG Maida: Yeast = 450 g', yeast25.displayAmount === 450 && yeast25.displayUnit === 'g');
+
+    // Test 5: Decimal input support (1.5 kg, 2.5 kg, 7.5 kg)
+    const r1_5 = calculateRecipe(1.5);
+    const sugar1_5 = r1_5.items.find(i => i.id === 'sugar');
+    const yeast1_5 = r1_5.items.find(i => i.id === 'yeast');
+    assert('1.5 KG Maida: Sugar = 375 g', sugar1_5.displayAmount === 375 && sugar1_5.displayUnit === 'g');
+    assert('1.5 KG Maida: Yeast = 27 g', yeast1_5.displayAmount === 27 && yeast1_5.displayUnit === 'g');
+
+    const r2_5 = calculateRecipe(2.5);
+    const yeast2_5 = r2_5.items.find(i => i.id === 'yeast');
+    assert('2.5 KG Maida: Yeast = 45 g', yeast2_5.displayAmount === 45 && yeast2_5.displayUnit === 'g');
+
+    // Test 6: Invalid and negative inputs
+    const rNeg = calculateRecipe(-5);
+    assert('Negative Maida returns isValid = false', !rNeg.isValid);
+
+    const rZero = calculateRecipe(0);
+    assert('Zero Maida returns isValid = false', !rZero.isValid);
+
+    const rNaN = calculateRecipe(NaN);
+    assert('NaN Maida returns isValid = false', !rNaN.isValid);
+
+    // Summary output for test runner
+    const allPassed = tests.every(t => t.passed);
+    const summary = {
+      total: tests.length,
+      passed: tests.filter(t => t.passed).length,
+      failed: tests.filter(t => !t.passed).length,
+      tests: tests
+    };
+
+    document.getElementById('results').textContent = JSON.stringify(summary, null, 2);
+    console.log('TEST RESULTS:', summary);
+  </script>
+</body>
+</html>

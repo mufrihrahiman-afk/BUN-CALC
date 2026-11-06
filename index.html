@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bun Recipe Calculator | Professional Bakery Batch Sizing</title>
+  
+  <!-- SEO & Mobile App Meta -->
+  <meta name="description" content="Calculate the exact ingredient quantities for baking buns based on maida flour quantity. Real-time dynamic bakery batch calculations.">
+  <meta name="theme-color" content="#382316">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Print Only Header -->
+  <div class="print-only print-header">
+    <div>
+      <h1>Bun Recipe Calculator &bull; Production Batch Sheet</h1>
+      <div class="print-meta">Commercial Bakery Formulation (1 KG Maida Base Standard)</div>
+      <div class="print-meta" id="printBunCount">Single Bun Weight: 60g &bull; Est. Bun Yield: ~30 buns</div>
+    </div>
+    <div style="text-align: right;">
+      <div class="print-meta" id="printDateTime">Date: --/--/----</div>
+      <div class="print-meta">Status: Approved For Production</div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- App Header -->
+    <header class="app-header no-print">
+      <div class="header-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        Commercial & Artisan Bakery System
+      </div>
+      <div class="app-title-wrapper">
+        <div class="bakery-icon-main" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M19 6h-3.18C15.4 3.84 13.55 2 11.27 2c-2.48 0-4.5 2.02-4.5 4.5 0 .2.02.39.05.58C4.33 7.82 2.5 10.36 2.5 13.5 2.5 17.64 5.86 21 10 21h9c1.66 0 3-1.34 3-3s-1.34-3-3-3h-1.5c.83 0 1.5-.67 1.5-1.5S18.33 12 17.5 12H16c1.1 0 2-.9 2-2s-.9-2-2-2h3c.55 0 1-.45 1-1s-.45-1-1-1zm-9 13c-3.03 0-5.5-2.47-5.5-5.5 0-2.47 1.63-4.56 3.92-5.26l.89-.27.17-.93c.17-.97.74-2.54 1.79-2.54 1.38 0 2.5 1.12 2.5 2.5v.5h2.23C16.57 7.7 17 8.5 17 9.5c0 .65-.3 1.23-.78 1.62l-.72.58.91.17c.97.18 1.59 1.05 1.59 2.13 0 1.1-.9 2-2 2h-3v1c0 1.1-.9 2-2 2H10z"/></svg>
+        </div>
+        <h1 class="app-title">Bun Recipe Calculator</h1>
+      </div>
+      <p class="app-subtitle">
+        Dynamic ingredient scaling for sweet & savory bakery buns based on exact Maida flour weight.
+      </p>
+    </header>
+
+    <!-- Main Calculator Hero Section -->
+    <section class="calculator-hero" aria-label="Maida Flour Input Section">
+      <div class="input-header">
+        <label for="maidaInput" class="input-label">
+          <svg viewBox="0 0 24 24"><path d="M19 6h-3.18C15.4 3.84 13.55 2 11.27 2c-2.48 0-4.5 2.02-4.5 4.5 0 .2.02.39.05.58C4.33 7.82 2.5 10.36 2.5 13.5 2.5 17.64 5.86 21 10 21h9c1.66 0 3-1.34 3-3s-1.34-3-3-3h-1.5c.83 0 1.5-.67 1.5-1.5S18.33 12 17.5 12H16c1.1 0 2-.9 2-2s-.9-2-2-2h3c.55 0 1-.45 1-1s-.45-1-1-1zm-9 13c-3.03 0-5.5-2.47-5.5-5.5 0-2.47 1.63-4.56 3.92-5.26l.89-.27.17-.93c.17-.97.74-2.54 1.79-2.54 1.38 0 2.5 1.12 2.5 2.5v.5h2.23C16.57 7.7 17 8.5 17 9.5c0 .65-.3 1.23-.78 1.62l-.72.58.91.17c.97.18 1.59 1.05 1.59 2.13 0 1.1-.9 2-2 2h-3v1c0 1.1-.9 2-2 2H10z"/></svg>
+          Enter Maida Quantity (KG)
+        </label>
+        <div class="recipe-basis-badge">
+          Standard Formula: 1 KG Base
+        </div>
+      </div>
+
+      <!-- Large Primary Input Box -->
+      <div class="primary-input-group">
+        <button type="button" class="input-stepper-btn no-print" data-step="-1" title="Decrease 1 kg" aria-label="Decrease by 1 kilogram">-1</button>
+        <button type="button" class="input-stepper-btn no-print" data-step="-0.5" title="Decrease 0.5 kg" aria-label="Decrease by 0.5 kilogram">-½</button>
+        
+        <input 
+          type="number" 
+          id="maidaInput" 
+          class="maidaInput maida-input" 
+          placeholder="e.g. 1, 3, 5, 25" 
+          step="any" 
+          min="0" 
+          inputmode="decimal"
+          autocomplete="off"
+          aria-describedby="inputFeedback"
+        >
+
+        <button type="button" id="clearInputBtn" class="input-clear-btn no-print" title="Clear field" aria-label="Clear input">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+
+        <div class="unit-tag">KG</div>
+
+        <button type="button" class="input-stepper-btn no-print" data-step="0.5" title="Increase 0.5 kg" aria-label="Increase by 0.5 kilogram">+½</button>
+        <button type="button" class="input-stepper-btn no-print" data-step="1" title="Increase 1 kg" aria-label="Increase by 1 kilogram">+1</button>
+      </div>
+
+      <!-- Live Feedback / Validation Note -->
+      <div id="inputFeedback" class="input-feedback hint">
+        Calculates instantly as you type &bull; Grams auto-convert to KG at 1000g+
+      </div>
+
+      <!-- Quick Selection Buttons -->
+      <div class="presets-section no-print">
+        <div class="presets-label">
+          <span>Quick Batch Selection</span>
+          <span style="font-weight: normal; font-size: 0.75rem; text-transform: none; color: var(--brown-500);">Tap to auto-fill</span>
+        </div>
+        <div class="presets-grid">
+          <button type="button" class="preset-chip active" data-preset="1">
+            <span>1 KG</span>
+            <span class="preset-sub">Base Test</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="2">
+            <span>2 KG</span>
+            <span class="preset-sub">Small Batch</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="3">
+            <span>3 KG</span>
+            <span class="preset-sub">Standard</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="5">
+            <span>5 KG</span>
+            <span class="preset-sub">Production</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="10">
+            <span>10 KG</span>
+            <span class="preset-sub">Commercial</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="25">
+            <span>25 KG</span>
+            <span class="preset-sub">1 Bag / Sack</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="50">
+            <span>50 KG</span>
+            <span class="preset-sub">Bulk Production</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prominent Total Recipe Display Banner -->
+    <section class="recipe-summary-banner" aria-label="Batch Summary Banner">
+      <div class="summary-main">
+        <div id="summaryMaidaBadge" class="summary-pill-maida">
+          MAIDA: 1 KG
+        </div>
+        <div class="summary-details">
+          <span class="summary-title">Recipe Batch Formulation</span>
+          <span id="summaryMaidaText" class="summary-desc">Full batch formulation for 1 kg maida</span>
+        </div>
+      </div>
+
+      <div class="summary-stats">
+        <div class="stat-item">
+          <span class="stat-label">Ingredients Count</span>
+          <span class="stat-value">8 Items</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total Dry & Fat Batch</span>
+          <span id="summaryTotalBatchWeight" class="stat-value">1.335 kg</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Bun Count (60g Bun)</span>
+          <span id="summaryEstBuns" class="stat-value gold">~30 buns</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bun Production & Yield Sizing Card (60g Standard) -->
+    <section class="bun-yield-card no-print" aria-label="Bun Yield Production Calculator">
+      <div class="bun-yield-header">
+        <div class="yield-title-group">
+          <div class="yield-icon">🥖</div>
+          <div>
+            <h3 class="yield-title">Bun Yield Production Sizing (60g Standard)</h3>
+            <p class="yield-subtitle">Count calculated for 60g dough balls with standard bakery hydration (~480g water per 1kg maida)</p>
+          </div>
+        </div>
+        <div class="bun-weight-control">
+          <span class="weight-label">Dough Piece Weight:</span>
+          <div class="weight-pills">
+            <button type="button" class="weight-pill" data-weight="50">50g</button>
+            <button type="button" class="weight-pill" data-weight="55">55g</button>
+            <button type="button" class="weight-pill active" data-weight="60">60g</button>
+            <button type="button" class="weight-pill" data-weight="65">65g</button>
+            <button type="button" class="weight-pill" data-weight="70">70g</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bun-yield-stats-row">
+        <div class="yield-stat-box highlight">
+          <span class="box-label">Total Buns Produced</span>
+          <span id="detailBunCount" class="box-value">~30 Buns</span>
+          <span id="detailBunRate" class="box-sub">~30 buns per 1 kg maida</span>
+        </div>
+        <div class="yield-stat-box">
+          <span class="box-label">Dry & Fat Recipe Mix</span>
+          <span id="detailDryMix" class="box-value">1.335 kg</span>
+          <span class="box-sub">8 base recipe items</span>
+        </div>
+        <div class="yield-stat-box">
+          <span class="box-label">Water to Add (~48%)</span>
+          <span id="detailWater" class="box-value">480 ml</span>
+          <span class="box-sub">Liquid for optimal dough</span>
+        </div>
+        <div class="yield-stat-box">
+          <span class="box-label">Total Mixed Dough</span>
+          <span id="detailTotalDough" class="box-value">1.815 kg</span>
+          <span id="detailDoughGrams" class="box-sub">1,815 g total dough weight</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toolbar: Actions & View Switcher -->
+    <div class="calculator-toolbar no-print">
+      <div class="action-buttons-group">
+        <button type="button" id="copyBtn" class="btn btn-primary" title="Copy full ingredient list to clipboard (Alt+C)">
+          <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          Copy Results
+        </button>
+
+        <button type="button" id="printBtn" class="btn btn-secondary" title="Print clean recipe sheet (Alt+P)">
+          <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+          Print Recipe
+        </button>
+
+        <button type="button" id="resetBtn" class="btn btn-outline" title="Reset calculator (Alt+R)">
+          <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          Reset
+        </button>
+      </div>
+
+      <div class="view-controls">
+        <span style="font-size: 0.85rem; font-weight: 600; color: var(--brown-600);">Display:</span>
+        <div class="view-toggle">
+          <button type="button" id="viewToggleCards" class="view-toggle-btn active" title="Cards grid layout">
+            <svg viewBox="0 0 24 24"><path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/></svg>
+            Cards
+          </button>
+          <button type="button" id="viewToggleTable" class="view-toggle-btn" title="Compact production table">
+            <svg viewBox="0 0 24 24"><path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/></svg>
+            Table
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Ingredient Output: Cards View -->
+    <main id="ingredientsGrid" class="ingredients-grid" aria-label="Calculated Ingredients Cards">
+      <!-- Dynamically filled by app.js -->
+    </main>
+
+    <!-- Live Ingredient Output: Table View (Hidden by default, shown when selected or printing) -->
+    <div id="tableViewWrapper" class="ingredients-table-wrapper" style="display: none;" aria-label="Calculated Ingredients Table">
+      <table class="ingredients-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ingredient Name</th>
+            <th>Calculated Quantity</th>
+            <th>Baker's %</th>
+            <th class="print-checkbox-col">Weighed</th>
+          </tr>
+        </thead>
+        <tbody id="ingredientsTableBody">
+          <!-- Dynamically filled by app.js -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Print Only Footer Sign-off -->
+    <div class="print-only print-footer-sign">
+      <div>
+        <strong>Prepared By:</strong> ________________________
+      </div>
+      <div>
+        <strong>Head Baker Approval:</strong> ________________________
+      </div>
+      <div>
+        <strong>Batch No:</strong> ______________
+      </div>
+    </div>
+
+    <!-- Bakery Tips & Reference Card -->
+    <section class="bakery-tips-card no-print">
+      <div class="tips-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </div>
+      <div class="tips-content">
+        <h4>Commercial Bakery Formulation Standard</h4>
+        <p>
+          All ingredients are scaled proportionally from the 1 KG Maida base recipe: Sugar (250g), Yeast (18g), Vanilla (5g), Milk Powder (5g), Ghee (50g), Bread Improver (2g), and Calcium (5g). Quantities reaching 1,000 grams or higher automatically convert to kilograms for accurate large-scale bakery weighing.
+        </p>
+      </div>
+    </section>
+
+    <!-- App Footer -->
+    <footer class="app-footer no-print">
+      <p>
+        <strong>Bun Recipe Calculator</strong> &bull; Professional Bakery Production Utility &bull; Real-time Ingredient Calculations
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
