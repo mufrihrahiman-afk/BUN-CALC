@@ -1,0 +1,43 @@
+{
+  "name": "Bun Recipe Calculator",
+  "short_name": "BUN CALC",
+  "description": "Professional bakery bun ingredient calculator. Scale recipes for any maida quantity with real-time calculations.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FAF7F2",
+  "theme_color": "#382316",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["food", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "1 KG Batch",
+      "short_name": "1 KG",
+      "description": "Open calculator with 1 KG Maida preset",
+      "url": "/?q=1",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "25 KG Batch",
+      "short_name": "25 KG",
+      "description": "Open calculator with 25 KG Maida preset",
+      "url": "/?q=25",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

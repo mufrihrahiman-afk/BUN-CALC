@@ -2,14 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Bun Recipe Calculator | Professional Bakery Batch Sizing</title>
-  
-  <!-- SEO & Mobile App Meta -->
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- SEO & Open Graph -->
   <meta name="description" content="Calculate the exact ingredient quantities for baking buns based on maida flour quantity. Real-time dynamic bakery batch calculations.">
+  <meta name="keywords" content="bun recipe, bakery calculator, maida, bread recipe, ingredient calculator, bakery production">
+  <meta property="og:title" content="Bun Recipe Calculator">
+  <meta property="og:description" content="Professional bakery bun ingredient scaling tool. Enter Maida quantity and get exact recipe instantly.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bun-calc.vercel.app/">
+  <meta property="og:image" content="https://bun-calc.vercel.app/icons/icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bun Recipe Calculator">
+  <meta name="twitter:description" content="Professional bakery bun ingredient calculator for commercial and artisan bakers.">
+  <meta name="twitter:image" content="https://bun-calc.vercel.app/icons/icon-512.png">
+
+  <!-- Theme & Mobile App -->
   <meta name="theme-color" content="#382316">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BUN CALC">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="BUN CALC">
+  <meta name="msapplication-TileColor" content="#382316">
+  <meta name="msapplication-TileImage" content="/icons/icon-192.png">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png">
 
   <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -304,6 +330,83 @@
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
+  <!-- PWA Install Banner -->
+  <div id="installBanner" class="install-banner" style="display:none;">
+    <div class="install-banner-content">
+      <span class="install-icon">🍞</span>
+      <div class="install-text">
+        <strong>Add to Home Screen</strong>
+        <span>Install Bun Calc for quick offline access</span>
+      </div>
+    </div>
+    <div class="install-actions">
+      <button id="installBtn" class="btn btn-primary" style="font-size:0.82rem; padding:0.45rem 0.9rem;">Install App</button>
+      <button id="dismissInstall" class="btn btn-outline" style="font-size:0.82rem; padding:0.45rem 0.6rem;">✕</button>
+    </div>
+  </div>
+
   <script src="app.js"></script>
+
+  <!-- Service Worker & PWA Init -->
+  <script>
+    // Register service worker for offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+
+    // Handle URL query param: ?q=25 → prefill 25 kg
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      if (q && !isNaN(parseFloat(q)) && parseFloat(q) > 0) {
+        window.addEventListener('DOMContentLoaded', () => {
+          const input = document.getElementById('maidaInput');
+          if (input) {
+            input.value = parseFloat(q);
+            input.dispatchEvent(new Event('input'));
+          }
+        });
+      }
+    })();
+
+    // PWA Install Prompt
+    let deferredPrompt;
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const dismissInstall = document.getElementById('dismissInstall');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!sessionStorage.getItem('installDismissed')) {
+        setTimeout(() => { if (installBanner) installBanner.style.display = 'flex'; }, 2500);
+      }
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          installBanner.style.display = 'none';
+        }
+      });
+    }
+
+    if (dismissInstall) {
+      dismissInstall.addEventListener('click', () => {
+        installBanner.style.display = 'none';
+        sessionStorage.setItem('installDismissed', '1');
+      });
+    }
+
+    window.addEventListener('appinstalled', () => {
+      installBanner.style.display = 'none';
+      deferredPrompt = null;
+    });
+  </script>
 </body>
 </html>

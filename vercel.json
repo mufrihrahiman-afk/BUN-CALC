@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "name": "bun-calc",
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+      ]
+    },
+    {
+      "source": "/styles.css",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }
+      ]
+    },
+    {
+      "source": "/app.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=2592000" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#382316"/>
+  <!-- Warm gradient overlay -->
+  <rect width="512" height="512" rx="96" fill="url(#grad)"/>
+  <defs>
+    <radialGradient id="grad" cx="30%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#D8942A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#24160E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Bun shape (circle loaf) -->
+  <ellipse cx="256" cy="230" rx="130" ry="110" fill="#D8942A"/>
+  <ellipse cx="256" cy="215" rx="128" ry="105" fill="#EAB24C"/>
+  <ellipse cx="256" cy="205" rx="120" ry="88" fill="#F3C975"/>
+  <!-- Sesame seeds -->
+  <ellipse cx="220" cy="185" rx="10" ry="5" fill="#B87B22" transform="rotate(-20,220,185)"/>
+  <ellipse cx="260" cy="175" rx="10" ry="5" fill="#B87B22" transform="rotate(10,260,175)"/>
+  <ellipse cx="295" cy="190" rx="10" ry="5" fill="#B87B22" transform="rotate(-10,295,190)"/>
+  <ellipse cx="240" cy="205" rx="9" ry="4" fill="#B87B22" transform="rotate(15,240,205)"/>
+  <ellipse cx="275" cy="208" rx="9" ry="4" fill="#B87B22" transform="rotate(-5,275,208)"/>
+  <!-- Tray/base -->
+  <rect x="100" y="320" width="312" height="30" rx="12" fill="#69462F"/>
+  <rect x="90" y="338" width="332" height="20" rx="10" fill="#4D3221"/>
+  <!-- CALC text -->
+  <text x="256" y="430" font-family="'Arial Black', Arial, sans-serif" font-size="62" font-weight="900" fill="#EAB24C" text-anchor="middle" letter-spacing="4">CALC</text>
+  <!-- Small BUN text above -->
+  <text x="256" y="395" font-family="'Arial Black', Arial, sans-serif" font-size="32" font-weight="700" fill="#F3C975" text-anchor="middle" letter-spacing="8">BUN</text>
+</svg>
